@@ -1,12 +1,163 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+	  'Lucida Sans', Arial, sans-serif;
+  }
 
-/* 
+#myTodo:hover span {
+	opacity: 1;
+	width: 40px;
+}
+body {
+	background: linear-gradient(
+	  90deg,
+	  rgba(48, 16, 255, 1) 0%,
+	  rgba(100, 115, 255, 1) 100%
+	);
+  }
+span {
+	background: rgb(31, 18, 219);
+	height: 35px;
+	width: 0;
+	margin-right: 10px;
+	margin-left: 10px;
+	text-align: center;
+	display: inline-block;
+	color: white;
+	opacity: 0;
+	transition: 0.2s linear;
+}
 
-    You can write your own styles here...
-    
-    
-    ...Or you can use the import command to include 
-    other sylesheets into your bunde as well, e.j:
-    
-    import 'relative/path/to/stylesheet.scss';
+i.fa-trash {
+	margin: 7px;
+}
+li.clicked {
+	color: gray;
+	text-decoration: line-through;
+}
+li {
+	background: #fff;
+	padding-left: 10px;
+	line-height: 2em;
+	margin: 0;
+	color: #666;
+}
+ul {
+	cursor: pointer;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+#list{
+    display: flex;
+  flex-direction: column;
+  justify-content: start;
+  width: 520px;
+  background: #161a2b;
+  text-align: center;
+  margin: 128px auto;
+  border-radius: 10px;
+  
+}
+h1 {
+	margin: 32px 0;
+	color: #fff;
+	font-size: 24px;
+  }
+  .todo-input {
+	padding: 14px 32px 14px 16px;
+	border-radius: 4px 0 0 4px;
+	border: 2px solid #5d0cff;
+	outline: none;
+	width: 320px;
+	
+	background: transparent;
+	color: #fff;
+  }
+  .todo-button {
+	padding: 16px;
+	border: none;
+	border-radius: 0 4px 4px 0;
+	cursor: pointer;
+	outline: none;
+	background: linear-gradient(
+	  90deg,
+	  rgba(93, 12, 255, 1) 0%,
+	  rgba(155, 0, 250, 1) 100%
+	);
+	color: #fff;
+	text-transform: capitalize;}
+	.todo-form {
+		margin-bottom: 32px;
+	  }
 
-*/
+
+#app{
+	margin-top: 200px;
+}
+
+.todo-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin: 4px auto;
+	color: #fff;
+	background: linear-gradient(
+	  90deg,
+	  rgba(255, 118, 20, 1) 0%,
+	  rgba(255, 84, 17, 1) 100%
+	);
+  
+	padding: 16px;
+	border-radius: 5px;
+	width: 90%;
+  }
+  .todo-row:nth-child(4n + 1) {
+	background: linear-gradient(
+	  90deg,
+	  rgba(93, 12, 255, 1) 0%,
+	  rgba(155, 0, 250, 1) 100%
+	);
+  }
+  .todo-row:nth-child(4n + 2) {
+	background: linear-gradient(
+	  90deg,
+	  rgba(255, 12, 241, 1) 0%,
+	  rgba(250, 0, 135, 1) 100%
+	);
+  }
+  .todo-row:nth-child(4n + 3) {
+	background: linear-gradient(
+	  90deg,
+	  rgba(20, 159, 255, 1) 0%,
+	  rgba(17, 122, 255, 1) 100%
+	);
+  }
+  #myButton {
+		padding: 16px;
+		border: none;
+		border-radius: 0 4px 4px 0;
+		cursor: pointer;
+		outline: none;
+		background: linear-gradient(
+		  90deg,
+		  rgb(7, 245, 27) 0%,
+		  rgb(0, 250, 75) 100%
+		);
+		color: #000000;
+		text-transform: capitalize;}
+  #mySecondButton{
+	padding: 16px;
+	border: none;
+	border-radius: 0 4px 4px 0;
+	cursor: pointer;
+	outline: none;
+	background: linear-gradient(
+	  90deg,
+	  rgb(206, 252, 0) 0%,
+	  rgb(96, 136, 1) 100%
+	);
+	color: #000000;
+	text-transform: capitalize;}
