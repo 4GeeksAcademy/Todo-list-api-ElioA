@@ -5,33 +5,41 @@ import Todo from "./Todo";
 
 const TodoList=()=>{
     
-    const [name,setName]=useState("elio")
+    const [name,setName]=useState("")
     const [todos,setTodos]=useState([])
+
+    const clearInput=()=>{
+        setInput("")
+    }
     
-    useEffect(()=>{   
-        fetch('https://playground.4geeks.com/apis/fake/todos/user/elio', {
-            method: "get",
-           headers: {"Content-Type": "application/json"}
-           }).then(resp => {
-               console.log(resp.ok);
-               console.log(resp.status);
-             return resp.json(); 
-           }).then(data => {
-               console.log(data); 
-               setTodos(data)
-           }).catch(error => {
-            fetch('https://playground.4geeks.com/apis/fake/todos/user/elio', {
+
+    
+    const getYourList=()=>{
+        fetch("https://playground.4geeks.com/apis/fake/todos/user/"+{name}, {
+                    method: "get",
+                   headers: {"Content-Type": "application/json"}
+                   }).then(resp => {
+                       console.log(resp.ok);
+                       console.log(resp.status);
+                     return resp.json(); 
+                   }).then(data => {
+                       console.log(data); 
+                       setTodos(data)
+                   }).catch(error => {});
+               }
+
+    const createYourList=()=>{
+        fetch("https://playground.4geeks.com/apis/fake/todos/user/"+{name}, {
                 method: "POST",
                body: JSON.stringify([]),
                headers: {"Content-Type": "application/json"}
                }).then(resp => {
                  return resp.json(); 
                }).then(data => {
-                    window.location.reload(false),
                    console.log(data); 
                }).catch(error => {});
-           });}
-       ,[])
+
+    }   
    
   const addTodo= todo =>{
             if (!todo.label || /^\s*$/.test(todo.label)) {
@@ -39,7 +47,7 @@ const TodoList=()=>{
             const newTodos=[todo,...todos]
             setTodos(newTodos)
 
-          fetch('https://playground.4geeks.com/apis/fake/todos/user/elio', {
+          fetch("https://playground.4geeks.com/apis/fake/todos/user/"+{name}, {
              method: "PUT",
             body: JSON.stringify(newTodos),
             headers: {"Content-Type": "application/json"}
@@ -58,7 +66,7 @@ const TodoList=()=>{
         
         const removeArr = [...todos].filter(todo=> todo.id !== id);
         setTodos(removeArr)
-        fetch('https://playground.4geeks.com/apis/fake/todos/user/elio', {
+        fetch("https://playground.4geeks.com/apis/fake/todos/user/"+{name}, {
             method: "PUT",
            body: JSON.stringify(removeArr),
            headers: {"Content-Type": "application/json"}
@@ -72,7 +80,7 @@ const TodoList=()=>{
     }
 
     const deleteList=()=>{
-        fetch('https://playground.4geeks.com/apis/fake/todos/user/elio', {
+        fetch("https://playground.4geeks.com/apis/fake/todos/user/"+{name}, {
             method: "delete",
            headers: {"Content-Type": "application/json"}
            }).then(resp => {
@@ -88,24 +96,36 @@ const TodoList=()=>{
 
 
     const remainingTasks=()=>{
-        if(todos.length==0){return <p>Add a task to the List</p>}
+        if(name===""){return <p>Add your name please</p>}
+        if(todos.length==0){return <p>Add a task to the List, we need at least one task</p>}
         else {return <p>{todos.length} Tasks remain on the list</p>}
     
     }
 
 return (
-        <div className="card"  id="list">
+<>
+        <div className="card" id="myDiv" style={{marginTop:"20px"}}>
+                <input className="form-control" id="myInput" type="text" placeholder='Put your name here and press Enter' value={name} name='text'
+                    onChange={(e)=>setName(e.target.value)} 
+                    onKeyDown={(e)=>{if(e.key==="Enter" && name!==""){createYourList()
+                        getYourList()}}}></input>
                 <button id="myButton" onClick={()=>{deleteList()
-                window.location.reload(false)}}>Delete my list</button>
+                    window.location.reload(false)
+                    setName("")
+                    }}>Delete my list</button>
+        </div>
+        <div className="card list"  id="list">
             <div className="card-header text-center">
                 <h1 className="d-flex justify-content-center m-3">What are we doing today??</h1>
             </div>
-            <TodoForm onSubmit={addTodo}/>
-            <Todo todos={todos} removeTodo={removeTodo}/>
+            {name !=="" ? <TodoForm onSubmit={addTodo}/> : <TodoForm/>}
+            {name !=="" ? <Todo todos={todos} removeTodo={removeTodo}/> : <div></div>}
             <div className="card-footer" style={{marginTop:"10px", color:"white"}} >
                  {remainingTasks()}
             </div>
-        </div>    
+        </div>
+      
+</>
         );
 }
 

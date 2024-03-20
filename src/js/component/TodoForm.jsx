@@ -19,7 +19,7 @@ function TodoForm(props) {
        label: input[0].toUpperCase()+input.slice(1),
        done: false
        })
-        setInput("")
+       setInput("")
   };
 
   
