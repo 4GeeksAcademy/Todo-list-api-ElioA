@@ -27,6 +27,7 @@ const TodoList=()=>{
                }).then(resp => {
                  return resp.json(); 
                }).then(data => {
+                    window.location.reload(false),
                    console.log(data); 
                }).catch(error => {});
            });}
@@ -94,7 +95,8 @@ const TodoList=()=>{
 
 return (
         <div className="card"  id="list">
-                <button id="myButton" onClick={deleteList}>Delete my list</button>
+                <button id="myButton" onClick={()=>{deleteList()
+                window.location.reload(false)}}>Delete my list</button>
             <div className="card-header text-center">
                 <h1 className="d-flex justify-content-center m-3">What are we doing today??</h1>
             </div>
