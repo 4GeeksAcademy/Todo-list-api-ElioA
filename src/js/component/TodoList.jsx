@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from "react";
 import TodoForm from "./TodoForm";
 import Todo from "./Todo";
+import { useNavigate } from "react-router";
 
 
-const TodoList=()=>{
+const TodoList=({name})=>{
     
-    const [name,setName]=useState("")
     const [todos,setTodos]=useState([])
+    const navigate=useNavigate()
 
     const clearInput=()=>{
         setInput("")
     }
     
-
-    
-    const getYourList=()=>{
-        fetch("https://playground.4geeks.com/apis/fake/todos/user/"+{name}, {
+   
+    useEffect(()=>{
+        console.log(name)
+       setTimeout(() => {
+         fetch(`https://playground.4geeks.com/apis/fake/todos/user/${name}`, {
                     method: "get",
                    headers: {"Content-Type": "application/json"}
                    }).then(resp => {
@@ -25,29 +27,19 @@ const TodoList=()=>{
                    }).then(data => {
                        console.log(data); 
                        setTodos(data)
-                   }).catch(error => {});
-               }
+                       console.log(name)
+                   }).catch(error => {});}, 1000)
+    },[])
 
-    const createYourList=()=>{
-        fetch("https://playground.4geeks.com/apis/fake/todos/user/"+{name}, {
-                method: "POST",
-               body: JSON.stringify([]),
-               headers: {"Content-Type": "application/json"}
-               }).then(resp => {
-                 return resp.json(); 
-               }).then(data => {
-                   console.log(data); 
-               }).catch(error => {});
-
-    }   
    
   const addTodo= todo =>{
             if (!todo.label || /^\s*$/.test(todo.label)) {
             return;}
             const newTodos=[todo,...todos]
             setTodos(newTodos)
+       
 
-          fetch("https://playground.4geeks.com/apis/fake/todos/user/"+{name}, {
+          fetch(`https://playground.4geeks.com/apis/fake/todos/user/${name}`, {
              method: "PUT",
             body: JSON.stringify(newTodos),
             headers: {"Content-Type": "application/json"}
@@ -66,7 +58,7 @@ const TodoList=()=>{
         
         const removeArr = [...todos].filter(todo=> todo.id !== id);
         setTodos(removeArr)
-        fetch("https://playground.4geeks.com/apis/fake/todos/user/"+{name}, {
+        fetch(`https://playground.4geeks.com/apis/fake/todos/user/${name}`, {
             method: "PUT",
            body: JSON.stringify(removeArr),
            headers: {"Content-Type": "application/json"}
@@ -79,8 +71,9 @@ const TodoList=()=>{
            });
     }
 
+    
     const deleteList=()=>{
-        fetch("https://playground.4geeks.com/apis/fake/todos/user/"+{name}, {
+        fetch(`https://playground.4geeks.com/apis/fake/todos/user/${name}`, {
             method: "delete",
            headers: {"Content-Type": "application/json"}
            }).then(resp => {
@@ -91,8 +84,7 @@ const TodoList=()=>{
                console.log(error);
            });
         }
-
-   
+    
 
 
     const remainingTasks=()=>{
@@ -104,22 +96,17 @@ const TodoList=()=>{
 
 return (
 <>
-        <div className="card" id="myDiv" style={{marginTop:"20px"}}>
-                <input className="form-control" id="myInput" type="text" placeholder='Put your name here and press Enter' value={name} name='text'
-                    onChange={(e)=>setName(e.target.value)} 
-                    onKeyDown={(e)=>{if(e.key==="Enter" && name!==""){createYourList()
-                        getYourList()}}}></input>
-                <button id="myButton" onClick={()=>{deleteList()
-                    window.location.reload(false)
-                    setName("")
-                    }}>Delete my list</button>
-        </div>
+      
         <div className="card list"  id="list">
             <div className="card-header text-center">
                 <h1 className="d-flex justify-content-center m-3">What are we doing today??</h1>
+                <button id="myButton" onClick={()=>{deleteList() 
+                   navigate("/")
+                   window.location.reload(false)
+                    }}>Delete my list</button>
             </div>
-            {name !=="" ? <TodoForm onSubmit={addTodo}/> : <TodoForm/>}
-            {name !=="" ? <Todo todos={todos} removeTodo={removeTodo}/> : <div></div>}
+                <TodoForm onSubmit={addTodo}/>
+                {name!=="" ? <Todo todos={todos} removeTodo={removeTodo}/> : navigate("/")} 
             <div className="card-footer" style={{marginTop:"10px", color:"white"}} >
                  {remainingTasks()}
             </div>
