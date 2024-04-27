@@ -17,7 +17,7 @@ function TodoForm(props) {
     props.onSubmit({
        id:Math.floor(Math.random()*10000),
        label: input[0].toUpperCase()+input.slice(1),
-       done: false
+       is_done: false
        })
        setInput("")
   };

@@ -16,7 +16,7 @@ const TodoList=()=>{
     
     const getYourList=()=>{
         setTimeout(() => {
-        fetch(`https://playground.4geeks.com/apis/fake/todos/user/${name}`, {
+        fetch(`https://playground.4geeks.com/todo/users/${name}`, {
                     method: "get",
                    headers: {"Content-Type": "application/json"}
                    }).then(resp => {
@@ -25,12 +25,13 @@ const TodoList=()=>{
                      return resp.json(); 
                    }).then(data => {
                        console.log(data); 
-                       setTodos(data)
+                       setTodos(data.todos)
+                       console.log(todos)
                    }).catch(error => {});},1000)
                }
 
     const createYourList=()=>{
-        fetch(`https://playground.4geeks.com/apis/fake/todos/user/${name}`, {
+        fetch(`https://playground.4geeks.com/todo/users/${name}`, {
                 method: "POST",
                body: JSON.stringify([]),
                headers: {"Content-Type": "application/json"}
@@ -46,11 +47,13 @@ const TodoList=()=>{
             if (!todo.label || /^\s*$/.test(todo.label)) {
             return;}
             const newTodos=[todo,...todos]
-            setTodos(newTodos)
-
-          fetch(`https://playground.4geeks.com/apis/fake/todos/user/${name}`, {
+            const todoList=newTodos
+            setTodos(todoList)
+            const newList={"name" : name, "todos" : todoList}
+            console.log(newList)
+          fetch(`https://playground.4geeks.com/todo/users/${name}`, {
              method: "PUT",
-            body: JSON.stringify(newTodos),
+            body: JSON.stringify(newList),
             headers: {"Content-Type": "application/json"}
             }).then(resp => {
                 console.log(resp.ok);
@@ -67,9 +70,9 @@ const TodoList=()=>{
         
         const removeArr = [...todos].filter(todo=> todo.id !== id);
         setTodos(removeArr)
-        fetch(`https://playground.4geeks.com/apis/fake/todos/user/${name}`, {
+        fetch(`https://playground.4geeks.com/todo/users/${name}`, {
             method: "PUT",
-           body: JSON.stringify(removeArr),
+           body: JSON.stringify({"name":name, "todos": removeArr}),
            headers: {"Content-Type": "application/json"}
            }).then(resp => {
              return resp.json(); 
@@ -81,7 +84,7 @@ const TodoList=()=>{
     }
 
     const deleteList=()=>{
-        fetch(`https://playground.4geeks.com/apis/fake/todos/user/${name}`, {
+        fetch(`https://playground.4geeks.com/todo/users/${name}`, {
             method: "delete",
            headers: {"Content-Type": "application/json"}
            }).then(resp => {
@@ -109,10 +112,11 @@ return (
                 <input className="form-control" id="myInput" type="text" placeholder='Put your name here and press Enter' value={name} name='text'
                     onChange={(e)=>{setName(e.target.value)
                     if(name===""){setTodos([])}}} 
-                    onKeyDown={(e)=>{if(e.key==="Enter" && name!==""){createYourList()
+                    onKeyDown={(e)=>{if(e.key==="Enter" && name!==""){setTodos([])
+                        createYourList()
                         getYourList()}}}></input>
                 <button id="myButton" onClick={()=>{deleteList()
-                    window.location.reload(false)
+                    setTodos([])
                     setName("")
                     }}>Delete my list</button>
         </div>
