@@ -181,3 +181,17 @@ h1 {
 		justify-content: start;
 		border-radius: 10px;
 	  }
+
+
+	#myThirdButton{
+		padding: 16px;
+		border: none;
+		cursor: pointer;
+		outline: none;
+		background: linear-gradient(
+		  90deg,
+		  rgb(241, 4, 16) 0%,
+		  rgb(102, 16, 16) 100%
+		);
+		color: #000000;
+		text-transform: capitalize;}
