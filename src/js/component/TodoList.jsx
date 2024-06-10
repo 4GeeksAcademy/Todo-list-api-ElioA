@@ -15,55 +15,54 @@ const TodoList=({name})=>{
     
    
     useEffect(()=>{
-        console.log(name)
        setTimeout(() => {
-         fetch(`https://playground.4geeks.com/apis/fake/todos/user/${name}`, {
-                    method: "get",
+         fetch(`https://playground.4geeks.com/todo/users/${name}`, {
+                    method: "GET",
                    headers: {"Content-Type": "application/json"}
                    }).then(resp => {
                        console.log(resp.ok);
                        console.log(resp.status);
                      return resp.json(); 
                    }).then(data => {
-                       console.log(data); 
-                       setTodos(data)
-                       console.log(name)
-                   }).catch(error => {});}, 1000)
+                       console.log(data.todos); 
+                       setTodos(data.todos)
+                   }).catch(error => {});}, 500)
     },[])
 
    
   const addTodo= todo =>{
-            if (!todo.label || /^\s*$/.test(todo.label)) {
-            return;}
-            const newTodos=[todo,...todos]
-            setTodos(newTodos)
-       
-
-          fetch(`https://playground.4geeks.com/apis/fake/todos/user/${name}`, {
-             method: "PUT",
-            body: JSON.stringify(newTodos),
-            headers: {"Content-Type": "application/json"}
-            }).then(resp => {
-                console.log(resp.ok);
-                console.log(resp.status);
-              return resp.json(); 
-            }).then(data => {
-                console.log(data); 
-            }).catch(error => {
-                console.log(error);
-            });
+    
+    if (!todo.label || /^\s*$/.test(todo.label)) {
+        return;}
+        const newTodos=[todo,...todos]
+        const todoList=newTodos
+        setTodos(todoList)
+        console.log(todoList);
+      fetch(`https://playground.4geeks.com/todo/todos/${name}`, {
+         method: "POST",
+        body: JSON.stringify(todo),
+        headers: {"Content-Type": "application/json"}
+        }).then(resp => {
+            console.log(resp.ok);
+            console.log(resp.status);
+          return resp.json(); 
+        }).then(data => {
+            console.log(data); 
+        }).catch(error => {
+            console.log(error);
+        });
     }
 
     const removeTodo=id=>{
         
         const removeArr = [...todos].filter(todo=> todo.id !== id);
         setTodos(removeArr)
-        fetch(`https://playground.4geeks.com/apis/fake/todos/user/${name}`, {
-            method: "PUT",
-           body: JSON.stringify(removeArr),
+        
+        fetch(`https://playground.4geeks.com/todo/todos/${id}`, {
+            method: "DELETE",
            headers: {"Content-Type": "application/json"}
            }).then(resp => {
-             return resp.json(); 
+            return resp.json();
            }).then(data => {
                console.log(data); 
            }).catch(error => {
@@ -73,7 +72,7 @@ const TodoList=({name})=>{
 
     
     const deleteList=()=>{
-        fetch(`https://playground.4geeks.com/apis/fake/todos/user/${name}`, {
+        fetch(`https://playground.4geeks.com/todo/users/${name}`, {
             method: "delete",
            headers: {"Content-Type": "application/json"}
            }).then(resp => {
