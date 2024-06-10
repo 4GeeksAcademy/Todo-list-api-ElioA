@@ -11,7 +11,7 @@ function Todo({todos, completeTodo, removeTodo}) {
 
     return todos.map((todo,index)=> (
         <div  id="myTodo" className="todo-row" key={index}>
-            <div key={todo.id}>
+            <div key={index}>
                 {todo.label}
                 <span className="rounded" onClick={()=>removeTodo(todo.id)}><i className="fas fa-trash"></i></span>
             </div>

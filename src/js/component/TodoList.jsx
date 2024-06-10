@@ -13,6 +13,7 @@ const TodoList=({name})=>{
         setInput("")
     }
     
+
    
     useEffect(()=>{
        setTimeout(() => {
@@ -29,8 +30,11 @@ const TodoList=({name})=>{
                    }).catch(error => {});}, 500)
     },[])
 
+
+
    
   const addTodo= todo =>{
+
     
     if (!todo.label || /^\s*$/.test(todo.label)) {
         return;}
@@ -51,12 +55,15 @@ const TodoList=({name})=>{
         }).catch(error => {
             console.log(error);
         });
+
+
     }
 
     const removeTodo=id=>{
         
         const removeArr = [...todos].filter(todo=> todo.id !== id);
         setTodos(removeArr)
+
         
         fetch(`https://playground.4geeks.com/todo/todos/${id}`, {
             method: "DELETE",
@@ -95,7 +102,7 @@ const TodoList=({name})=>{
 
 return (
 <>
-      
+
         <div className="card list"  id="list">
             <div className="card-header text-center">
                 <h1 className="d-flex justify-content-center m-3">What are we doing today??</h1>
