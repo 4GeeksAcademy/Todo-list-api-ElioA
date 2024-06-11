@@ -11,8 +11,9 @@ import TodoList from '../component/TodoList';
 function Layout() {
 
     const [name, setName]=useState("")
-    console.log(name)
-  return (
+    
+  
+    return (
     <div>
      <BrowserRouter>
         <Routes>

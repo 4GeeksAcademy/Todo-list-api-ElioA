@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 const Home = (props) => {
 
 	const navigate = useNavigate()
-	
+  
 	
   const createYourList=()=>{
         fetch(`https://playground.4geeks.com/todo/users/${props.name}`, {
@@ -21,9 +21,11 @@ const Home = (props) => {
     } 
     
     const handleClick = () => {
+      localStorage.setItem("name", props.name)
       createYourList()
       navigate("/list")
-    }
+      }
+    
 	
 	
 	
@@ -34,8 +36,8 @@ const Home = (props) => {
                 <input className="form-control" id="myInput" type="text" placeholder='Put your name here and press Enter' value={props.name} name='text'
                     onChange={(e)=>props.setName(e.target.value)}></input>
                    
-                {props.name !=="" ? <button id="myButton" onClick={()=>{navigate("/list")}}>Go to your list</button> : <button id="myButton" onClick={()=>alert("please inmput your name")}>Go to your list</button>}
-                <button id="myThirdButton" onClick={()=>{handleClick()}}>Create your list</button>
+                
+                {props.name !=="" ? <button id="myThirdButton" onClick={()=>{handleClick()}}>Go to your your list</button> : <button id="myThirdButton" onClick={()=>alert("please create your list")}>put a name</button>}
 
         </div>
  		</div>

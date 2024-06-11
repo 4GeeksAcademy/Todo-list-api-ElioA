@@ -15,8 +15,8 @@ function TodoForm(props) {
     e.preventDefault();
 
     props.onSubmit({
-       label: input[0].toUpperCase()+input.slice(1),
-       is_done: false
+      label: input[0].toUpperCase()+input.slice(1),
+      is_done: false
        })
        setInput("")
   };

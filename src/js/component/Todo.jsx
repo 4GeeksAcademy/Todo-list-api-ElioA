@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import TodoForm from './TodoForm'
 
-function Todo({todos, completeTodo, removeTodo}) {
+function Todo({todos, removeTodo}) {
    
     const[edit,setEdit]=useState({
         id:null,
